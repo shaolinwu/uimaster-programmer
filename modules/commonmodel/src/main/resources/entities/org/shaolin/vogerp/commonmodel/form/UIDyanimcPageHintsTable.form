@@ -1,0 +1,264 @@
+<?xml version="1.0" ?>
+<ns2:UIEntity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns5="http://bmdp.shaolin.org/datamodel/PageDiagram" xmlns:ns4="http://bmdp.shaolin.org/datamodel/RDBDiagram" xmlns:ns3="http://bmdp.shaolin.org/datamodel/BEDiagram" xmlns:ns2="http://bmdp.shaolin.org/datamodel/Page" xmlns="http://bmdp.shaolin.org/datamodel/Common" xsi:schemaLocation="">
+  <entityName>org.shaolin.vogerp.commonmodel.form.UIDyanimcPageHintsTable</entityName>
+  <systemVersion>0</systemVersion>
+  <ns2:eventHandler functionName="createItem">
+    <ns2:ops xsi:type="ns2:OpCallAjaxType" name="createItem_201610131544">
+      <ns2:exp>
+        <expressionString><![CDATA[
+        import java.util.HashMap;
+        import org.shaolin.uimaster.page.AjaxContext;
+        import org.shaolin.uimaster.page.AjaxActionHelper;
+        import org.shaolin.uimaster.page.ajax.*;
+        import org.shaolin.vogerp.commonmodel.be.UIDyanimcPageHintsImpl;
+        {
+            UIDyanimcPageHintsImpl defaultUser = new UIDyanimcPageHintsImpl();
+            
+            HashMap input = new HashMap();
+            input.put("beObject", defaultUser);
+            input.put("editable", new Boolean(true));
+            RefForm form = new RefForm("userForm", "org.shaolin.vogerp.commonmodel.form.UIDyanimcPageHints", input);
+            @page.addElement(form);
+            
+            form.openInWindows("Create Dynamic Page Hints", new TableCallBack("itemTable"));
+        }]]></expressionString>
+      </ns2:exp>
+    </ns2:ops>
+  </ns2:eventHandler>
+  <ns2:eventHandler functionName="openItem">
+    <ns2:ops xsi:type="ns2:OpCallAjaxType" name="openItem_201610131544">
+      <ns2:exp>
+        <expressionString><![CDATA[
+        import java.util.HashMap;
+        import org.shaolin.uimaster.page.AjaxContext;
+        import org.shaolin.uimaster.page.AjaxActionHelper;
+        import org.shaolin.uimaster.page.ajax.*;
+        import org.shaolin.vogerp.commonmodel.be.UIDyanimcPageHintsImpl;
+        {
+            Table tableWidget = (Table)@page.getElement("itemTable");
+            if (tableWidget.getSelectedRow() == null) {
+                return;
+            }
+            UIDyanimcPageHintsImpl defaultUser = (UIDyanimcPageHintsImpl)tableWidget.getSelectedRow();
+            
+            HashMap input = new HashMap();
+            input.put("beObject", defaultUser);
+            input.put("editable", new Boolean(true));
+            RefForm form = new RefForm("userForm", "org.shaolin.vogerp.commonmodel.form.UIDyanimcPageHints", input);
+            @page.addElement(form);
+            
+            form.openInWindows("Open Dynamic Page Hints", new TableCallBack("itemTable"));
+        }]]></expressionString>
+      </ns2:exp>
+    </ns2:ops>
+  </ns2:eventHandler>
+  <ns2:eventHandler functionName="deleteItem">
+    <ns2:ops xsi:type="ns2:OpCallAjaxType" name="deleteItem_209729176">
+      <ns2:exp>
+        <expressionString><![CDATA[
+        import org.shaolin.uimaster.page.AjaxContext;
+        import org.shaolin.uimaster.page.ajax.*;
+        import org.shaolin.vogerp.commonmodel.be.UIDyanimcPageHintsImpl;
+        import org.shaolin.vogerp.commonmodel.dao.CommonModel;
+        { 
+            Table tableWidget = (Table)@page.getElement("itemTable");
+            if (tableWidget.getSelectedRow() == null) {
+                return;
+            }
+            
+            UIDyanimcPageHintsImpl defaultUser = (UIDyanimcPageHintsImpl)tableWidget.getSelectedRow();
+            CommonModel.INSTANCE.delete(defaultUser);
+            tableWidget.refresh();
+        }]]></expressionString>
+      </ns2:exp>
+    </ns2:ops>
+  </ns2:eventHandler>
+  <ns2:eventHandler functionName="reload">
+         <ns2:ops xsi:type="ns2:OpExecuteScriptType">
+             <ns2:expressionString><![CDATA[
+             {
+              var o = this;
+              new UIMaster.ui.dialog({
+                  dialogType: UIMaster.ui.dialog.CONFIRM_DIALOG,
+                  message:'Are you sure reload all dynamic ui configuration?',
+                  messageType:UIMaster.ui.dialog.Warning,
+                  optionType:UIMaster.ui.dialog.YES_NO_OPTION,
+                  title:'',
+                  height:150,
+                  width:300,
+                  handler: function() {
+                     UIMaster.triggerServerEvent(UIMaster.getUIID(eventsource),"reload_201601171839",UIMaster.getValue(eventsource),o.__entityName);
+                  }
+              }).open();
+              return;
+             }
+             ]]></ns2:expressionString>
+         </ns2:ops>
+         <ns2:ops xsi:type="ns2:OpCallAjaxType" name="reload_201601171839">
+            <ns2:exp>
+                <ns2:expressionString><![CDATA[
+                import java.util.HashMap;
+                import java.util.ArrayList;
+                import org.shaolin.bmdp.runtime.AppContext;
+                import org.shaolin.uimaster.page.AjaxContext;
+                import org.shaolin.uimaster.page.ajax.*;
+                import org.shaolin.vogerp.commonmodel.be.UIDyanimcItemImpl;
+                import org.shaolin.vogerp.commonmodel.dao.ModularityModel;
+                import org.shaolin.vogerp.commonmodel.IDynamicUIService;
+                {
+                    IDynamicUIService service = (IDynamicUIService)AppContext.get().getService(IDynamicUIService.class);
+                    service.reloadAllHints();
+                }
+                ]]></ns2:expressionString>
+            </ns2:exp>
+        </ns2:ops>
+    </ns2:eventHandler>
+  <ns2:body xsi:type="ns2:UIPanelType" UIID="Form">
+    <ns2:layout xsi:type="ns2:TableLayoutType">
+      <ns2:rowHeightWeight>0.0</ns2:rowHeightWeight>
+      <ns2:rowHeightWeight>0.0</ns2:rowHeightWeight>
+      <ns2:columnWidthWeight>1.0</ns2:columnWidthWeight>
+    </ns2:layout>
+    <ns2:component xsi:type="ns2:UIPanelType" UIID="fieldPanel">
+      <ns2:layout xsi:type="ns2:TableLayoutType">
+        <ns2:rowHeightWeight>0.0</ns2:rowHeightWeight>
+        <ns2:columnWidthWeight>1.0</ns2:columnWidthWeight>
+      </ns2:layout>
+      <ns2:component xsi:type="ns2:UITableType" UIID="itemTable">
+        <ns2:defaultRowSize>20</ns2:defaultRowSize>
+        <ns2:showActionBar>true</ns2:showActionBar>
+        <ns2:showFilter>false</ns2:showFilter>
+        <ns2:selectMode xsi:type="ns2:UITableSelectModeType">Single</ns2:selectMode>
+        <ns2:beElement>org.shaolin.vogerp.commonmodel.be.UIDyanimcPageHints</ns2:beElement>
+        <ns2:query>
+          <ns2:expression>
+            <expressionString><![CDATA[
+             import java.util.List;
+             import org.shaolin.uimaster.page.ajax.TableConditions;
+             import org.shaolin.vogerp.commonmodel.be.UIDyanimcPageHintsImpl;
+             import org.shaolin.vogerp.commonmodel.dao.ModularityModel;
+             import org.shaolin.bmdp.runtime.security.UserContext;
+             {
+                   if ($tableCondition == null) {
+                      UIDyanimcPageHintsImpl condition = new UIDyanimcPageHintsImpl();
+                      $tableCondition = TableConditions.createCondition(condition);
+                      $tableCondition.setCount(10);
+                      $tableCondition.addOrder("createDate", false);
+                   }
+                   UIDyanimcPageHintsImpl condition = (UIDyanimcPageHintsImpl)$tableCondition.getCondition();
+                   return ModularityModel.INSTANCE.searchDynamicPageHints(condition,
+                                 $tableCondition.getOrders(),
+                                 $tableCondition.getOffset(), 
+                                 $tableCondition.getCount());
+             }]]></expressionString>
+          </ns2:expression>
+        </ns2:query>
+        <ns2:column>
+          <ns2:title xsi:type="ns2:ResourceBundlePropertyType">
+            <ns2:bundle>org_shaolin_vogerp_commonmodel_i18n</ns2:bundle>
+            <ns2:key>org.shaolin.vogerp.commonmodel.be.UIDyanimcPageLink.srcUIName</ns2:key>
+          </ns2:title>
+          <ns2:beFieldId>rowBE.uiEntity</ns2:beFieldId>
+          <ns2:uiType>
+            <ns2:type>Text</ns2:type>
+          </ns2:uiType>
+        </ns2:column>
+        <ns2:column>
+          <ns2:title xsi:type="ns2:ResourceBundlePropertyType">
+            <ns2:bundle>org_shaolin_vogerp_commonmodel_i18n</ns2:bundle>
+            <ns2:key>org.shaolin.vogerp.commonmodel.be.UIDyanimcPageLink.srcUIPanel</ns2:key>
+          </ns2:title>
+          <ns2:beFieldId>rowBE.uiPanel</ns2:beFieldId>
+          <ns2:uiType>
+            <ns2:type>Text</ns2:type>
+          </ns2:uiType>
+        </ns2:column>
+        <ns2:column>
+          <ns2:title xsi:type="ns2:ResourceBundlePropertyType">
+            <ns2:bundle>org_shaolin_vogerp_commonmodel_i18n</ns2:bundle>
+            <ns2:key>org.shaolin.vogerp.commonmodel.be.UIDyanimcPageLink.srcUIWidget</ns2:key>
+          </ns2:title>
+          <ns2:beFieldId>rowBE.uiWidget</ns2:beFieldId>
+          <ns2:uiType>
+            <ns2:type>Text</ns2:type>
+          </ns2:uiType>
+        </ns2:column>
+        <ns2:column>
+          <ns2:title xsi:type="ns2:StringPropertyType">
+            <ns2:value>直接内容描述</ns2:value>
+          </ns2:title>
+          <ns2:beFieldId>rowBE.description</ns2:beFieldId>
+          <ns2:uiType>
+            <ns2:type>Label</ns2:type>
+          </ns2:uiType>
+        </ns2:column>
+        <ns2:column>
+          <ns2:title xsi:type="ns2:StringPropertyType">
+            <ns2:value>连接型描述</ns2:value>
+          </ns2:title>
+          <ns2:beFieldId>rowBE.link</ns2:beFieldId>
+          <ns2:uiType>
+            <ns2:type>Label</ns2:type>
+          </ns2:uiType>
+        </ns2:column>
+        <ns2:defaultActions>
+          <ns2:defaultNewAction>createItem</ns2:defaultNewAction>
+          <ns2:defaultOpenAction>openItem</ns2:defaultOpenAction>
+          <ns2:defaultDeleteAction>deleteItem</ns2:defaultDeleteAction>
+        </ns2:defaultActions>
+        <ns2:actionGroup>
+            <ns2:type>radio</ns2:type>
+            <ns2:action>
+                <ns2:uiid>reload</ns2:uiid>
+                <ns2:title xsi:type="ns2:StringPropertyType">
+                    <ns2:value>Reload Changes</ns2:value>
+                </ns2:title>
+                <ns2:icon>ui-icon-note</ns2:icon>
+                <ns2:function>reload</ns2:function>
+            </ns2:action>
+        </ns2:actionGroup>
+      </ns2:component>
+      <ns2:layoutConstraint>
+        <ns2:componentId>itemTable</ns2:componentId>
+        <ns2:constraint xsi:type="ns2:TableLayoutConstraintType" x="0" y="0" align="FULL"></ns2:constraint>
+      </ns2:layoutConstraint>
+    </ns2:component>
+    <ns2:component xsi:type="ns2:UIPanelType" UIID="actionPanel">
+      <ns2:layout xsi:type="ns2:TableLayoutType">
+        <ns2:rowHeightWeight>0.0</ns2:rowHeightWeight>
+        <ns2:columnWidthWeight>1.0</ns2:columnWidthWeight>
+      </ns2:layout>
+    </ns2:component>
+    <ns2:layoutConstraint>
+      <ns2:componentId>fieldPanel</ns2:componentId>
+      <ns2:constraint xsi:type="ns2:TableLayoutConstraintType" x="0" y="0" align="FULL"></ns2:constraint>
+    </ns2:layoutConstraint>
+    <ns2:layoutConstraint>
+      <ns2:componentId>actionPanel</ns2:componentId>
+      <ns2:constraint xsi:type="ns2:TableLayoutConstraintType" x="0" y="1" align="FULL"></ns2:constraint>
+    </ns2:layoutConstraint>
+  </ns2:body>
+  <ns2:mapping>
+    <systemVersion>0</systemVersion>
+    <ns2:DataEntity scope="InOut" name="list" category="JavaClass">
+      <type entityName="java.util.List"></type>
+    </ns2:DataEntity>
+    <ns2:DataEntity scope="InOut" name="editable" category="JavaPrimitive">
+      <type entityName="java.lang.Boolean"></type>
+    </ns2:DataEntity>
+    <ns2:DataToUIMappingOperation>
+      <expressionString><![CDATA[
+      import java.util.List;
+      import org.shaolin.vogerp.commonmodel.be.UIDyanimcPageHintsImpl;
+      import org.shaolin.vogerp.commonmodel.dao.ModularityModel;
+      {
+        @odContext.executeAllMappings();
+      }]]></expressionString>
+    </ns2:DataToUIMappingOperation>
+    <ns2:UIToDataMappingOperation>
+      <expressionString>{
+@odContext.executeAllMappings();
+}</expressionString>
+    </ns2:UIToDataMappingOperation>
+  </ns2:mapping>
+</ns2:UIEntity>

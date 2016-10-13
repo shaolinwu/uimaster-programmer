@@ -1,0 +1,260 @@
+<?xml version="1.0" ?>
+<ns2:UIEntity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns5="http://bmdp.shaolin.org/datamodel/PageDiagram" xmlns:ns4="http://bmdp.shaolin.org/datamodel/RDBDiagram" xmlns:ns3="http://bmdp.shaolin.org/datamodel/BEDiagram" xmlns:ns2="http://bmdp.shaolin.org/datamodel/Page" xmlns="http://bmdp.shaolin.org/datamodel/Common" xsi:schemaLocation="">
+  <entityName>org.shaolin.vogerp.commonmodel.form.ListToListSelector</entityName>
+  <systemVersion>0</systemVersion>
+  <ns2:eventHandler functionName="moveToRight">
+    <ns2:ops xsi:type="ns2:OpCallAjaxType" name="moveToRight-20150815-0821">
+      <ns2:exp>
+        <expressionString><![CDATA[
+        import java.util.List;
+        import org.shaolin.uimaster.page.AjaxContext;
+        import org.shaolin.uimaster.page.ajax.*;
+        { 
+           AList leftList = @page.getList("leftListUI");
+        			AList rightList = @page.getList("rightListUI");
+        			List values = leftList.getValues();
+        			for (int i=0;i<values.size();i++) {
+					        			rightList.addOption(leftList.getOptionName((String)values.get(i)), (String)values.get(i));
+					        			leftList.removeOption((String)values.get(i));
+        			}
+        			//leftList.clearValues();
+        			//rightList.clearValues();
+        }]]></expressionString>
+      </ns2:exp>
+    </ns2:ops>
+  </ns2:eventHandler>
+  <ns2:eventHandler functionName="moveAllToRight">
+    <ns2:ops xsi:type="ns2:OpCallAjaxType" name="moveAllToRight-20150815-0821">
+      <ns2:exp>
+        <expressionString><![CDATA[
+        import java.util.List;
+        import org.shaolin.uimaster.page.AjaxContext;
+        import org.shaolin.uimaster.page.ajax.*;
+        { 
+           AList leftList = @page.getList("leftListUI");
+        			AList rightList = @page.getList("rightListUI");
+        			rightList.setOptions(leftList.getOptionDisplayValues(), leftList.getOptionValues());
+        			rightList.clearValues();
+        			leftList.clearValues();
+        			leftList.removeAllOptions();
+        }]]></expressionString>
+      </ns2:exp>
+    </ns2:ops>
+  </ns2:eventHandler>
+  <ns2:eventHandler functionName="moveToLeft">
+    <ns2:ops xsi:type="ns2:OpCallAjaxType" name="moveToLeft-20150815-0821">
+      <ns2:exp>
+        <expressionString><![CDATA[
+        import java.util.List;
+        import org.shaolin.uimaster.page.AjaxContext;
+        import org.shaolin.uimaster.page.ajax.*;
+        { 
+           AList leftList = @page.getList("leftListUI");
+        			AList rightList = @page.getList("rightListUI");
+        			List values = rightList.getValues();
+        			for (int i=0;i<values.size();i++) {
+					        			leftList.addOption(rightList.getOptionName((String)values.get(i)), (String)values.get(i));
+					        			rightList.removeOption((String)values.get(i));
+        			}
+        			//leftList.clearValues();
+        			//rightList.clearValues();
+        }]]></expressionString>
+      </ns2:exp>
+    </ns2:ops>
+  </ns2:eventHandler>
+  <ns2:eventHandler functionName="moveAllToLeft">
+    <ns2:ops xsi:type="ns2:OpCallAjaxType" name="moveAllToLeft-20150815-0821">
+      <ns2:exp>
+        <expressionString><![CDATA[
+        import java.util.List;
+        import org.shaolin.uimaster.page.AjaxContext;
+        import org.shaolin.uimaster.page.ajax.*;
+        { 
+           AList leftList = @page.getList("leftListUI");
+        			AList rightList = @page.getList("rightListUI");
+        			leftList.setOptions(rightList.getOptionDisplayValues(), rightList.getOptionValues());
+        			leftList.clearValues();
+        			rightList.clearValues();
+        			rightList.removeAllOptions();
+        }]]></expressionString>
+      </ns2:exp>
+    </ns2:ops>
+  </ns2:eventHandler>
+  <ns2:body xsi:type="ns2:UIPanelType" UIID="Form">
+    <ns2:layout xsi:type="ns2:TableLayoutType">
+      <ns2:rowHeightWeight>0.0</ns2:rowHeightWeight>
+      <ns2:columnWidthWeight>-1.0</ns2:columnWidthWeight>
+    </ns2:layout>
+    <ns2:component xsi:type="ns2:UIPanelType" UIID="fieldPanel">
+      <ns2:layout xsi:type="ns2:TableLayoutType">
+        <ns2:rowHeightWeight>1.0</ns2:rowHeightWeight>
+        <ns2:columnWidthWeight>100</ns2:columnWidthWeight>
+        <ns2:columnWidthWeight>30</ns2:columnWidthWeight>
+        <ns2:columnWidthWeight>100</ns2:columnWidthWeight>
+      </ns2:layout>
+      <ns2:component xsi:type="ns2:UIListType" UIID="leftListUI">
+        <ns2:size xsi:type="ns2:ExpressionPropertyType">
+          <ns2:expression>
+            <expressionString>{return 8;}</expressionString>
+          </ns2:expression>
+        </ns2:size>
+        <ns2:multiple xsi:type="ns2:ExpressionPropertyType">
+          <ns2:expression>
+            <expressionString>{return true;}</expressionString>
+          </ns2:expression>
+        </ns2:multiple>
+      </ns2:component>
+      <ns2:component xsi:type="ns2:UIPanelType" UIID="middlePanel">
+		      <ns2:layout xsi:type="ns2:TableLayoutType">
+		        <ns2:rowHeightWeight>0.0</ns2:rowHeightWeight>
+		        <ns2:rowHeightWeight>0.0</ns2:rowHeightWeight>
+		        <ns2:rowHeightWeight>0.0</ns2:rowHeightWeight>
+		        <ns2:rowHeightWeight>0.0</ns2:rowHeightWeight>
+		        <ns2:columnWidthWeight>1.0</ns2:columnWidthWeight>
+		      </ns2:layout>
+		      <ns2:component xsi:type="ns2:UIButtonType" UIID="moveToRightBtn">
+		        <ns2:EventListener xsi:type="ns2:ClickListenerType">
+		          <ns2:handler functionName="moveToRight"></ns2:handler>
+		        </ns2:EventListener>
+		      		<ns2:text xsi:type="ns2:ResourceBundlePropertyType">
+		          <ns2:bundle>Common</ns2:bundle>
+		          <ns2:key>BUTTON_MOVE2_RIGHT</ns2:key>
+		        </ns2:text>
+		      </ns2:component>
+		      <ns2:component xsi:type="ns2:UIButtonType" UIID="moveAllToRightBtn">
+		        <ns2:EventListener xsi:type="ns2:ClickListenerType">
+		          <ns2:handler functionName="moveAllToRight"></ns2:handler>
+		        </ns2:EventListener>
+		      		<ns2:text xsi:type="ns2:ResourceBundlePropertyType">
+		          <ns2:bundle>Common</ns2:bundle>
+		          <ns2:key>BUTTON_MOVEALL2_RIGHT</ns2:key>
+		        </ns2:text>
+		      </ns2:component>
+		      <ns2:component xsi:type="ns2:UIButtonType" UIID="moveToLeftBtn">
+		        <ns2:EventListener xsi:type="ns2:ClickListenerType">
+		          <ns2:handler functionName="moveToLeft"></ns2:handler>
+		        </ns2:EventListener>
+		      		<ns2:text xsi:type="ns2:ResourceBundlePropertyType">
+		          <ns2:bundle>Common</ns2:bundle>
+		          <ns2:key>BUTTON_MOVE2_LEFT</ns2:key>
+		        </ns2:text>
+		      </ns2:component>
+		      <ns2:component xsi:type="ns2:UIButtonType" UIID="moveAllToLeftBtn">
+		        <ns2:EventListener xsi:type="ns2:ClickListenerType">
+		          <ns2:handler functionName="moveAllToLeft"></ns2:handler>
+		        </ns2:EventListener>
+		      		<ns2:text xsi:type="ns2:ResourceBundlePropertyType">
+		          <ns2:bundle>Common</ns2:bundle>
+		          <ns2:key>BUTTON_MOVEALL2_LEFT</ns2:key>
+		        </ns2:text>
+		      </ns2:component>
+		      <ns2:layoutConstraint>
+		        <ns2:componentId>moveToRightBtn</ns2:componentId>
+		        <ns2:constraint xsi:type="ns2:TableLayoutConstraintType" x="0" y="0" align="FULL"></ns2:constraint>
+		      </ns2:layoutConstraint>
+		      <ns2:layoutConstraint>
+		        <ns2:componentId>moveAllToRightBtn</ns2:componentId>
+		        <ns2:constraint xsi:type="ns2:TableLayoutConstraintType" x="0" y="1" align="FULL"></ns2:constraint>
+		      </ns2:layoutConstraint>
+		      <ns2:layoutConstraint>
+		        <ns2:componentId>moveToLeftBtn</ns2:componentId>
+		        <ns2:constraint xsi:type="ns2:TableLayoutConstraintType" x="0" y="2" align="FULL"></ns2:constraint>
+		      </ns2:layoutConstraint>
+		      <ns2:layoutConstraint>
+		        <ns2:componentId>moveAllToLeftBtn</ns2:componentId>
+		        <ns2:constraint xsi:type="ns2:TableLayoutConstraintType" x="0" y="3" align="FULL"></ns2:constraint>
+		      </ns2:layoutConstraint>
+			   </ns2:component>
+      <ns2:component xsi:type="ns2:UIListType" UIID="rightListUI">
+        <ns2:size xsi:type="ns2:ExpressionPropertyType">
+          <ns2:expression>
+            <expressionString>{return 8;}</expressionString>
+          </ns2:expression>
+        </ns2:size>
+        <ns2:multiple xsi:type="ns2:ExpressionPropertyType">
+          <ns2:expression>
+            <expressionString>{return true;}</expressionString>
+          </ns2:expression>
+        </ns2:multiple>
+      </ns2:component>
+		     <ns2:layoutConstraint>
+	        <ns2:componentId>leftListUI</ns2:componentId>
+	        <ns2:constraint xsi:type="ns2:TableLayoutConstraintType" x="0" y="0" align="FULL"></ns2:constraint>
+	      </ns2:layoutConstraint>
+	      <ns2:layoutConstraint>
+	        <ns2:componentId>middlePanel</ns2:componentId>
+	        <ns2:constraint xsi:type="ns2:TableLayoutConstraintType" x="1" y="0" align="FULL"></ns2:constraint>
+	      </ns2:layoutConstraint>
+	      <ns2:layoutConstraint>
+	        <ns2:componentId>rightListUI</ns2:componentId>
+	        <ns2:constraint xsi:type="ns2:TableLayoutConstraintType" x="2" y="0" align="FULL"></ns2:constraint>
+	      </ns2:layoutConstraint>
+			   </ns2:component>
+      <ns2:layoutConstraint>
+      <ns2:componentId>fieldPanel</ns2:componentId>
+      <ns2:constraint xsi:type="ns2:TableLayoutConstraintType" x="0" y="0" align="FULL"></ns2:constraint>
+    </ns2:layoutConstraint>
+  </ns2:body>
+  <ns2:mapping>
+    <systemVersion>0</systemVersion>
+    <ns2:DataEntity scope="InOut" name="selectedValues" category="JavaClass">
+      <type entityName="java.util.ArrayList"></type>
+    </ns2:DataEntity>
+    <ns2:DataEntity scope="InOut" name="optionValues" category="JavaClass">
+      <type entityName="java.util.ArrayList"></type>
+    </ns2:DataEntity>
+    <ns2:DataEntity scope="InOut" name="displayItems" category="JavaClass">
+      <type entityName="java.util.ArrayList"></type>
+    </ns2:DataEntity>
+    <ns2:DataEntity scope="Internal" name="leftValues" category="JavaClass">
+      <type entityName="java.util.ArrayList"></type>
+    </ns2:DataEntity>
+    <ns2:DataEntity scope="Internal" name="leftDisplayItems" category="JavaClass">
+      <type entityName="java.util.ArrayList"></type>
+    </ns2:DataEntity>
+    <ns2:DataEntity scope="Internal" name="rightValues" category="JavaClass">
+      <type entityName="java.util.ArrayList"></type>
+    </ns2:DataEntity>
+    <ns2:DataEntity scope="Internal" name="rightDisplayItems" category="JavaClass">
+      <type entityName="java.util.ArrayList"></type>
+    </ns2:DataEntity>
+	   <ns2:ComponentMapping xsi:type="ns2:SimpleComponentMappingType" name="simpleMapping0">
+      <ns2:mappingRule entityName="org.shaolin.uimaster.page.od.rules.UIMultipleChoice"></ns2:mappingRule>
+      <ns2:UIComponent componentPath="leftListUI" paramName="UIWidgetType"></ns2:UIComponent>
+      <ns2:DataComponent xsi:type="ns2:ComponentParamType" componentPath="leftValues" paramName="OptionValues"></ns2:DataComponent>
+      <ns2:DataComponent xsi:type="ns2:ComponentParamType" componentPath="leftDisplayItems" paramName="OptionDisplayValues"></ns2:DataComponent>
+    </ns2:ComponentMapping>
+    <ns2:ComponentMapping xsi:type="ns2:SimpleComponentMappingType" name="simpleMapping1">
+      <ns2:mappingRule entityName="org.shaolin.uimaster.page.od.rules.UIMultipleChoice"></ns2:mappingRule>
+      <ns2:UIComponent componentPath="rightListUI" paramName="UIWidgetType"></ns2:UIComponent>
+      <ns2:DataComponent xsi:type="ns2:ComponentParamType" componentPath="rightValues" paramName="OptionValues"></ns2:DataComponent>
+      <ns2:DataComponent xsi:type="ns2:ComponentParamType" componentPath="rightDisplayItems" paramName="OptionDisplayValues"></ns2:DataComponent>
+    </ns2:ComponentMapping>
+    <ns2:DataToUIMappingOperation>
+      <expressionString><![CDATA[
+      import java.util.ArrayList;
+      import org.shaolin.bmdp.runtime.AppContext;
+      import org.shaolin.vogerp.commonmodel.util.CEOperationUtil;
+      {
+       $rightValues = $selectedValues;
+       $rightDisplayItems = CEOperationUtil.syncRightDisplayItems($selectedValues, $optionValues, $displayItems);
+       ArrayList[] pairs = CEOperationUtil.syncLeftDisplayItems($selectedValues, $optionValues, $displayItems);
+       $leftValues = pairs[0];
+       $leftDisplayItems = pairs[1];
+       
+	      @odContext.executeAllMappings();
+      }   
+    ]]></expressionString>
+    </ns2:DataToUIMappingOperation>
+    <ns2:UIToDataMappingOperation>
+      <expressionString><![CDATA[
+      import java.util.ArrayList;
+      {
+         $rightValues = new ArrayList();
+		       @odContext.executeAllMappings();
+		       $selectedValues = $rightValues;
+	     }
+	  ]]></expressionString>
+    </ns2:UIToDataMappingOperation>
+  </ns2:mapping>
+</ns2:UIEntity>
